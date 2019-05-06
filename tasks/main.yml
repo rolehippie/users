@@ -79,7 +79,7 @@
 - name: write sshkeys
   with_items: '{{ users }}'
   loop_control:
-    label: '{{ item.name }}: {{ item.sshkeys.split(" ")[2] }}'
+    label: '{{ item.name }}: {{ item.sshkeys.split(" ")[2] | trim }}'
   when: item.name in users_available
   authorized_key:
     user: '{{ item.name }}'
