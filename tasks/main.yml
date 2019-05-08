@@ -9,6 +9,8 @@
 
 - name: create group
   with_items: '{{ users }}'
+  loop_control:
+    label: '{{ item.name }}'
   when: item.name in users_available
   group:
     name: '{{ item.name }}'
@@ -19,6 +21,8 @@
 
 - name: create user
   with_items: '{{ users }}'
+  loop_control:
+    label: '{{ item.name }}'
   when: item.name in users_available
   user:
     name: '{{ item.name }}'
@@ -35,6 +39,8 @@
 
 - name: install homeshick
   with_items: '{{ users }}'
+  loop_control:
+    label: '{{ item.name }}'
   when: item.name in users_available
   become: yes
   become_user: '{{ item.name }}'
@@ -46,6 +52,8 @@
 
 - name: clone castles
   with_subelements: ['{{ users }}', castles]
+  loop_control:
+    label: '{{ item.0.name }}: {{ item.1 }}'
   when: item.0.name in users_available
   become: yes
   become_user: '{{ item.0.name }}'
@@ -57,15 +65,20 @@
 
 - name: link castles
   with_subelements: ['{{ users }}', castles]
+  loop_control:
+    label: '{{ item.0.name }}: {{ item.1 }}'
   when: item.0.name in users_available
   become: yes
   become_user: '{{ item.0.name }}'
   command: /home/{{ item.0.name }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}
+  changed_when: False
   tags:
     - users
 
 - name: write sshkeys
   with_items: '{{ users }}'
+  loop_control:
+    label: '{{ item.name }}: {{ item.sshkeys.split(" ")[2] | trim }}'
   when: item.name in users_available
   authorized_key:
     user: '{{ item.name }}'
