@@ -58,8 +58,9 @@
   become: yes
   become_user: '{{ item.0.name }}'
   git:
-    repo: https://github.com/{{ item.1 }}.git
-    dest: /home/{{ item.0.name }}/.homesick/repos/{{ item.1 | basename }}
+    repo: https://github.com/{{ item.1.name | default(item.1) }}.git
+    dest: /home/{{ item.0.name }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}
+    force: '{{ item.1.force | default(users_castles_force) }}'
   tags:
     - users
 
