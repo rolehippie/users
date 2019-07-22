@@ -1,5 +1,15 @@
+- name: os variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+  tags:
+    - users
+
 - name: install git
-  with_items:
+  when: users_install_package | default(True)
+  loop:
     - git
   package:
     name: '{{ item }}'
@@ -11,10 +21,10 @@
   with_items: '{{ users }}'
   loop_control:
     label: '{{ item.name }}'
-  when: item.name in users_available
+  when: item.name in users_available and item.primary_group is undefined
   group:
     name: '{{ item.name }}'
-    gid: '{{ item.uid }}'
+    gid: '{{ item.uid | default(omit) }}'
     state: present
   tags:
     - users
@@ -26,8 +36,8 @@
   when: item.name in users_available
   user:
     name: '{{ item.name }}'
-    uid: '{{ item.uid }}'
-    group: '{{ item.name }}'
+    uid: '{{ item.uid | default(omit) }}'
+    group: '{{ item.primary_group | default(item.name) }}'
     shell: '{{ item.shell }}'
     groups: '{{ item.groups | join(",") }}'
     generate_ssh_key: yes
@@ -41,12 +51,12 @@
   with_items: '{{ users }}'
   loop_control:
     label: '{{ item.name }}'
-  when: item.name in users_available
+  when: item.name in users_available and item.castles | length > 0
   become: yes
   become_user: '{{ item.name }}'
   git:
     repo: https://github.com/andsens/homeshick.git
-    dest: /home/{{ item.name }}/.homesick/repos/homeshick
+    dest: '{{ users_home_path }}/{{ item.name }}/.homesick/repos/homeshick'
   tags:
     - users
 
@@ -59,7 +69,7 @@
   become_user: '{{ item.0.name }}'
   git:
     repo: https://github.com/{{ item.1.name | default(item.1) }}.git
-    dest: /home/{{ item.0.name }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}
+    dest: '{{ users_home_path }}/{{ item.0.name }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}'
     force: '{{ item.1.force | default(users_castles_force) }}'
   tags:
     - users
@@ -71,7 +81,7 @@
   when: item.0.name in users_available
   become: yes
   become_user: '{{ item.0.name }}'
-  command: /home/{{ item.0.name }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}
+  command: '{{ users_home_path }}/{{ item.0.name }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}'
   changed_when: False
   tags:
     - users
