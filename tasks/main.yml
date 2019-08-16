@@ -39,6 +39,7 @@
     uid: '{{ item.uid | default(omit) }}'
     group: '{{ item.primary_group | default(item.name) }}'
     shell: '{{ item.shell }}'
+    home: '{{ item.home | default(omit) }}'
     groups: '{{ item.groups | join(",") }}'
     generate_ssh_key: yes
     append: yes
@@ -56,7 +57,7 @@
   become_user: '{{ item.name }}'
   git:
     repo: https://github.com/andsens/homeshick.git
-    dest: '{{ users_home_path }}/{{ item.name }}/.homesick/repos/homeshick'
+    dest: '{{ item.home | default(users_home_path + "/" + item.name) }}/.homesick/repos/homeshick'
   tags:
     - users
 
@@ -69,7 +70,7 @@
   become_user: '{{ item.0.name }}'
   git:
     repo: https://github.com/{{ item.1.name | default(item.1) }}.git
-    dest: '{{ users_home_path }}/{{ item.0.name }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}'
+    dest: '{{ item.0.home | default(users_home_path + "/" + item.0.name) }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}'
     force: '{{ item.1.force | default(users_castles_force) }}'
   tags:
     - users
@@ -81,7 +82,7 @@
   when: item.0.name in users_available
   become: yes
   become_user: '{{ item.0.name }}'
-  command: '{{ users_home_path }}/{{ item.0.name }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}'
+  command: '{{ item.0.home | default(users_home_path + "/" + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}'
   changed_when: False
   tags:
     - users
