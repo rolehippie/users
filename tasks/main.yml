@@ -27,6 +27,7 @@
   user:
     name: '{{ item.name }}'
     uid: '{{ item.uid | default(omit) }}'
+    password: '{{ item.password | default(omit) }}'
     group: '{{ item.primary_group | default(item.name) }}'
     shell: '{{ item.shell }}'
     home: '{{ item.home | default(omit) }}'
