@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    users_general:
+      - name: dummy
+        shell: /bin/bash
+        castles:
+          - tboerger/homeshick-base
+        sshkeys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINaQYR0/Oj6k1H03kshz2J7rlGCaDSuaGPhhOs9FcZfn dummy@host1
+  roles:
+    - role: users
