@@ -44,7 +44,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.ohmyzsh | default(False)
-  become: yes
+  become: True
   become_user: "{{ item.name }}"
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
@@ -57,7 +57,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.bashit | default(False)
-  become: yes
+  become: True
   become_user: "{{ item.name }}"
   git:
     repo: https://github.com/Bash-it/bash-it.git
@@ -70,7 +70,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.castles | default([]) | length > 0
-  become: yes
+  become: True
   become_user: "{{ item.name }}"
   git:
     repo: https://github.com/andsens/homeshick.git
@@ -82,7 +82,7 @@
   loop: "{{ (users_general + users_extra) | subelements('castles') }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
-  become: yes
+  become: True
   become_user: "{{ item.0.name }}"
   git:
     repo: "https://github.com/{{ item.1.name | default(item.1) }}.git"
@@ -95,7 +95,7 @@
   loop: "{{ (users_general + users_extra) | subelements('castles') }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
-  become: yes
+  become: True
   become_user: "{{ item.0.name }}"
   command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
   changed_when: False
