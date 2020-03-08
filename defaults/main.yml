@@ -1,3 +1,68 @@
-users: []
-users_available: []
+# Standards: 0.1
+---
+# @var users_general:description: List of global users
+# @var users_general:example: >
+# users_general:
+#   - name: thomas
+#     primary_group: staff
+#     shell: /bin/bash
+#     castles:
+#       - tboerger/homeshick-base
+#       - name: tboerger/homeshick-osx
+#         force: True
+#     groups:
+#       - admin
+#     sshkeys:
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINaQYR0/Oj6k1H03kshz2J7rlGCaDSuaGPhhOs9FcZfn tboerger@host1
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7oOi3qaDtfQVFhPKyd0Wk0C/y+QM71vtln8Rl44NlB tboerger@host2
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFcPTmdo+7eK+8n2yE7Kx1vyQ4yJwHBngvQOt1MPhKhR tboerger@host3
+#   - name: buser
+#     primary_group: staff
+#     shell: /bin/bash
+#     bashit: True
+#     groups:
+#       - admin
+#   - name: zuser
+#     primary_group: staff
+#     shell: /bin/zsh
+#     ohmyzsh: True
+#     groups:
+#       - admin
+# @end
+users_general: []
+
+# @var users_extra:description: List of extra users
+# @var users_extra:example: >
+# users_extra:
+#   - name: thomas
+#     primary_group: staff
+#     shell: /bin/bash
+#     castles:
+#       - tboerger/homeshick-base
+#       - name: tboerger/homeshick-osx
+#         force: True
+#     groups:
+#       - admin
+#     sshkeys:
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINaQYR0/Oj6k1H03kshz2J7rlGCaDSuaGPhhOs9FcZfn tboerger@host1
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7oOi3qaDtfQVFhPKyd0Wk0C/y+QM71vtln8Rl44NlB tboerger@host2
+#       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFcPTmdo+7eK+8n2yE7Kx1vyQ4yJwHBngvQOt1MPhKhR tboerger@host3
+#   - name: buser
+#     primary_group: staff
+#     shell: /bin/bash
+#     bashit: True
+#     groups:
+#       - admin
+#   - name: zuser
+#     primary_group: staff
+#     shell: /bin/zsh
+#     ohmyzsh: True
+#     groups:
+#       - admin
+# @end
+users_extra: []
+
+# @var users_castles_force:description: Force to update homeshick castels
 users_castles_force: False
+
+...

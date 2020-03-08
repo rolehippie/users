@@ -1,92 +1,117 @@
-- name: install git
+# Standards: 0.1
+---
+- name: Install required packages
   loop:
     - git
   package:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: present
   tags:
     - users
 
-- name: create group
-  with_items: '{{ users }}'
+- name: Create primary group
+  loop: "{{ users_general + users_extra }}"
   loop_control:
-    label: '{{ item.name }}'
-  when: item.name in users_available and item.primary_group is undefined
+    label: "{{ item.name }}"
+  when: item.primary_group is undefined
   group:
-    name: '{{ item.name }}'
-    gid: '{{ item.uid | default(omit) }}'
+    name: "{{ item.name }}"
+    gid: "{{ item.uid | default(omit) }}"
     state: present
   tags:
     - users
 
-- name: create user
-  with_items: '{{ users }}'
+- name: Create user account
+  loop: "{{ users_general + users_extra }}"
   loop_control:
-    label: '{{ item.name }}'
-  when: item.name in users_available
+    label: "{{ item.name }}"
   user:
-    name: '{{ item.name }}'
-    uid: '{{ item.uid | default(omit) }}'
-    password: '{{ item.password | default(omit) }}'
-    group: '{{ item.primary_group | default(item.name) }}'
-    shell: '{{ item.shell }}'
-    home: '{{ item.home | default(omit) }}'
-    groups: '{{ item.groups | join(",") }}'
-    generate_ssh_key: yes
-    append: yes
-    createhome: yes
+    name: "{{ item.name }}"
+    uid: "{{ item.uid | default(omit) }}"
+    group: "{{ item.primary_group | default(item.name) }}"
+    shell: "{{ item.shell }}"
+    home: "{{ item.home | default('/home/' + item.name) }}"
+    groups: "{{ item.groups | default([]) | join(',') }}"
+    generate_ssh_key: True
+    append: True
+    createhome: True
     state: present
   tags:
     - users
 
-- name: install homeshick
-  with_items: '{{ users }}'
+- name: Install ohmyzsh repo
+  loop: "{{ users_general + users_extra }}"
   loop_control:
-    label: '{{ item.name }}'
-  when: item.name in users_available and item.castles | length > 0
-  become: yes
-  become_user: '{{ item.name }}'
+    label: "{{ item.name }}"
+  when: item.ohmyzsh | default(False)
+  become: True
+  become_user: "{{ item.name }}"
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ item.home | default('/home/' + item.name) }}/.oh-my-zsh"
+  tags:
+    - users
+
+- name: Install bashit repo
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.bashit | default(False)
+  become: True
+  become_user: "{{ item.name }}"
+  git:
+    repo: https://github.com/Bash-it/bash-it.git
+    dest: "{{ item.home | default('/home/' + item.name) }}/.bash_it"
+  tags:
+    - users
+
+- name: Install homeshick base
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.castles | default([]) | length > 0
+  become: True
+  become_user: "{{ item.name }}"
   git:
     repo: https://github.com/andsens/homeshick.git
-    dest: '{{ item.home | default("/home/" + item.name) }}/.homesick/repos/homeshick'
+    dest: "{{ item.home | default('/home/' + item.name) }}/.homesick/repos/homeshick"
   tags:
     - users
 
-- name: clone castles
-  with_subelements: ['{{ users }}', castles]
+- name: Clone homeshick castles
+  loop: "{{ (users_general + users_extra) | subelements('castles') }}"
   loop_control:
-    label: '{{ item.0.name }}: {{ item.1 }}'
-  when: item.0.name in users_available
-  become: yes
-  become_user: '{{ item.0.name }}'
+    label: "{{ item.0.name }}: {{ item.1 }}"
+  become: True
+  become_user: "{{ item.0.name }}"
   git:
-    repo: https://github.com/{{ item.1.name | default(item.1) }}.git
-    dest: '{{ item.0.home | default("/home/" + item.0.name) }}/.homesick/repos/{{ (item.1.name | default(item.1)) | basename }}'
-    force: '{{ item.1.force | default(users_castles_force) }}'
+    repo: "https://github.com/{{ item.1.name | default(item.1) }}.git"
+    dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
+    force: "{{ item.1.force | default(users_castles_force) }}"
   tags:
     - users
 
-- name: link castles
-  with_subelements: ['{{ users }}', castles]
+- name: Link homeshick castles
+  loop: "{{ (users_general + users_extra) | subelements('castles') }}"
   loop_control:
-    label: '{{ item.0.name }}: {{ item.1 }}'
-  when: item.0.name in users_available
-  become: yes
-  become_user: '{{ item.0.name }}'
-  command: '{{ item.0.home | default("/home/" + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}'
+    label: "{{ item.0.name }}: {{ item.1 }}"
+  become: True
+  become_user: "{{ item.0.name }}"
+  command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
   changed_when: False
   tags:
     - users
 
-- name: write sshkeys
-  with_items: '{{ users }}'
+- name: Write authorized keys
+  loop: "{{ users_general + users_extra }}"
   loop_control:
-    label: '{{ item.name }}: {{ item.sshkeys.split(" ")[2] | trim }}'
-  when: item.name in users_available
+    label: "{{ item.name }}: {{ item.sshkeys | join(', ') }}"
   authorized_key:
-    user: '{{ item.name }}'
-    key: '{{ item.sshkeys }}'
-    exclusive: yes
+    user: "{{ item.name }}"
+    key: "{{ item.sshkeys | join('\n') }}"
+    exclusive: True
     state: present
   tags:
     - users
+
+...
