@@ -44,6 +44,7 @@ users_extra: []
 users_extra:
   - name: thomas
     primary_group: staff
+    comment: Thomas Mustermann
     shell: /bin/bash
     castles:
       - tboerger/homeshick-base
@@ -67,6 +68,9 @@ users_extra:
     ohmyzsh: True
     groups:
       - admin
+  - name: user-to-delete
+    remove: True
+    state: absent
 ```
 
 ### users_general
@@ -85,6 +89,7 @@ users_general: []
 users_general:
   - name: thomas
     primary_group: staff
+    comment: Thomas Mustermann
     shell: /bin/bash
     castles:
       - tboerger/homeshick-base
@@ -108,11 +113,14 @@ users_general:
     ohmyzsh: True
     groups:
       - admin
+  - name: user-to-delete
+    remove: True
+    state: absent
 ```
 
 ## Dependencies
 
-- None
+* None
 
 ## License
 
