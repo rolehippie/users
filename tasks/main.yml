@@ -9,11 +9,30 @@
   tags:
     - users
 
+- name: Backup deleted user
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.state | default('present') == 'absent'
+    - item.remove | default(False)
+  archive:
+    path: /home/{{ item.name }}
+    dest: "/root/{{ item.name }}_{{ ansible_date_time.iso8601 }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+    remove: True
+  tags:
+    - users
+
 - name: Create primary group
   loop: "{{ users_general + users_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.primary_group is undefined
+  when:
+    - item.state | default('present') == 'present'
+    - item.primary_group is undefined
   group:
     name: "{{ item.name }}"
     gid: "{{ item.uid | default(omit) }}"
@@ -28,14 +47,23 @@
   user:
     name: "{{ item.name }}"
     uid: "{{ item.uid | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+    password: "{{ item.password | default('!') }}"
     group: "{{ item.primary_group | default(item.name) }}"
-    shell: "{{ item.shell }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
     home: "{{ item.home | default('/home/' + item.name) }}"
     groups: "{{ item.groups | default([]) | join(',') }}"
-    generate_ssh_key: True
+    generate_ssh_key: "{{ item.ssh_key.generate | default(False) }}"
+    ssh_key_bits: "{{ item.ssh_key.bits | default(omit) }}"
+    ssh_key_comment: "{{ item.ssh_key.comment | default(omit) }}"
+    ssh_key_file: "{{ item.ssh_key.file | default(omit) }}"
+    ssh_key_passphrase: "{{ item.ssh_key.passphrase | default(omit) }}"
+    ssh_key_type: "{{ item.ssh_key.type | default(omit) }}"
+    update_password: "{{ item.update_password | default('always') }}"
+    remove: "{{ item.remove | default(False) }}"
     append: True
     createhome: True
-    state: present
+    state: "{{ item.state | default('present') }}"
   tags:
     - users
 
@@ -43,7 +71,9 @@
   loop: "{{ users_general + users_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.ohmyzsh | default(False)
+  when:
+    - item.state | default('present') == 'present'
+    - item.ohmyzsh | default(False)
   become: True
   become_user: "{{ item.name }}"
   git:
@@ -56,7 +86,9 @@
   loop: "{{ users_general + users_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.bashit | default(False)
+  when:
+    - item.state | default('present') == 'present'
+    - item.bashit | default(False)
   become: True
   become_user: "{{ item.name }}"
   git:
@@ -69,7 +101,9 @@
   loop: "{{ users_general + users_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.castles | default([]) | length > 0
+  when:
+    - item.state | default('present') == 'present'
+    - item.castles | default([]) | length > 0
   become: True
   become_user: "{{ item.name }}"
   git:
@@ -79,9 +113,11 @@
     - users
 
 - name: Clone homeshick castles
-  loop: "{{ (users_general + users_extra) | subelements('castles') }}"
+  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=True) }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
+  when:
+    - item.state | default('present') == 'present'
   become: True
   become_user: "{{ item.0.name }}"
   git:
@@ -92,9 +128,11 @@
     - users
 
 - name: Link homeshick castles
-  loop: "{{ (users_general + users_extra) | subelements('castles') }}"
+  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=True) }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
+  when:
+    - item.0.state | default('present') == 'present'
   become: True
   become_user: "{{ item.0.name }}"
   command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
@@ -105,7 +143,9 @@
 - name: Write authorized keys
   loop: "{{ users_general + users_extra }}"
   loop_control:
-    label: "{{ item.name }}: {{ item.sshkeys | join(', ') }}"
+    label: "{{ item.name }}: {{ item.sshkeys | default(['None']) | join(', ') }}"
+  when:
+    - item.state | default('present') == 'present'
   authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.sshkeys | join('\n') }}"
