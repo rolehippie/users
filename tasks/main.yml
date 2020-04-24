@@ -48,7 +48,7 @@
     name: "{{ item.name }}"
     uid: "{{ item.uid | default(omit) }}"
     comment: "{{ item.comment | default(omit) }}"
-    password: "{{ item.password | default('!') }}"
+    password: "{{ item.password | default(omit) }}"
     group: "{{ item.primary_group | default(item.name) }}"
     shell: "{{ item.shell | default('/bin/bash') }}"
     home: "{{ item.home | default('/home/' + item.name) }}"
