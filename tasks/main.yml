@@ -1,10 +1,23 @@
 # Standards: 0.1
 ---
-- name: Install required packages
-  loop:
-    - git
+- name: Install zsh package
+  when: (users_general + users_extra) | selectattr('shell', 'match', '/bin/zsh') | list | length > 0
   package:
-    name: "{{ item }}"
+    name: zsh
+    state: present
+  tags:
+    - users
+
+- name: Install bash package
+  package:
+    name: bash
+    state: present
+  tags:
+    - users
+
+- name: Install git package
+  package:
+    name: git
     state: present
   tags:
     - users
