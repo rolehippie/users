@@ -1,7 +1,7 @@
 # Standards: 0.1
 ---
 - name: Install zsh package
-  when: (users_general + users_extra) | selectattr('shell', 'match', '/bin/zsh') | list | length > 0
+  when: (users_general + users_extra) | rejectattr('shell', 'undefined') | selectattr('shell', 'match', '/bin/zsh') | list | length > 0
   package:
     name: zsh
     state: present
