@@ -8,16 +8,13 @@
   tags:
     - users
 
-- name: Install bash package
+- name: Install required packages
+  loop:
+    - acl
+    - bash
+    - git
   package:
-    name: bash
-    state: present
-  tags:
-    - users
-
-- name: Install git package
-  package:
-    name: git
+    name: "{{ item }}"
     state: present
   tags:
     - users
