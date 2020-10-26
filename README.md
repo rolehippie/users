@@ -1,8 +1,14 @@
 # users
 
-[![Build Status](https://cloud.drone.io/api/badges/rolehippie/users/status.svg)](https://cloud.drone.io/rolehippie/users)
+[![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/users) [![Build Status](https://img.shields.io/drone/build/rolehippie/users/master?logo=drone)](https://cloud.drone.io/rolehippie/users) [![License: Apache-2.0](https://img.shields.io/github/license/rolehippie/users)](https://github.com/rolehippie/users/blob/master/LICENSE) 
 
-Ansible role to configure users
+Ansible role to manage system users. 
+
+## Sponsor 
+
+[![Proact Deutschland GmbH](https://proact.eu/wp-content/uploads/2020/03/proact-logo.png)](https://proact.eu) 
+
+Building and improving this Ansible role have been sponsored by my employer **Proact Deutschland GmbH**.
 
 ## Table of content
 

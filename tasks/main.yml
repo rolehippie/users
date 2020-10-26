@@ -1,4 +1,4 @@
-# Standards: 0.1
+# Standards: 1.2
 ---
 - name: Install zsh package
   when: (users_general + users_extra) | rejectattr('shell', 'undefined') | selectattr('shell', 'match', '/bin/zsh') | list | length > 0
