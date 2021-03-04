@@ -86,7 +86,7 @@
     - item.ohmyzsh | default(False)
   become: True
   become_user: "{{ item.name }}"
-  no_log: True
+  diff: False
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.oh-my-zsh"
@@ -102,7 +102,7 @@
     - item.bashit | default(False)
   become: True
   become_user: "{{ item.name }}"
-  no_log: True
+  diff: False
   git:
     repo: https://github.com/Bash-it/bash-it.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.bash_it"
@@ -118,7 +118,7 @@
     - item.castles | default([]) | length > 0
   become: True
   become_user: "{{ item.name }}"
-  no_log: True
+  diff: False
   git:
     repo: https://github.com/andsens/homeshick.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.homesick/repos/homeshick"
@@ -133,6 +133,7 @@
     - item.state | default('present') == 'present'
   become: True
   become_user: "{{ item.0.name }}"
+  diff: False
   git:
     repo: "https://github.com/{{ item.1.name | default(item.1) }}.git"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
