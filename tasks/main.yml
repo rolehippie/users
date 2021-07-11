@@ -160,6 +160,7 @@
     label: "{{ item.name }}: {{ item.sshkeys | default(['None']) | join(', ') }}"
   when:
     - item.state | default('present') == 'present'
+    - item.sshkeys | default(False)
   authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.sshkeys | join('\n') }}"
