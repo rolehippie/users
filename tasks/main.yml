@@ -135,7 +135,7 @@
   become_user: "{{ item.0.name }}"
   diff: False
   git:
-    repo: "https://github.com/{{ item.1.name | default(item.1) }}.git"
+    repo: "{{ item.1.name | default(item.1) if (item.1.name | default(item.1)).startswith('http') else 'https://github.com/' + item.1.name | default(item.1) }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
     force: "{{ item.1.force | default(users_castles_force) }}"
   tags:
