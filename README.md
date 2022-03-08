@@ -13,9 +13,12 @@ Building and improving this Ansible role have been sponsored by my employer **Pr
 ## Table of content
 
 - [Default Variables](#default-variables)
+  - [users_bashit_version](#users_bashit_version)
   - [users_castles_force](#users_castles_force)
   - [users_extra](#users_extra)
   - [users_general](#users_general)
+  - [users_homeshick_version](#users_homeshick_version)
+  - [users_ohmyzsh_version](#users_ohmyzsh_version)
 - [Discovered Tags](#discovered-tags)
 - [Dependencies](#dependencies)
 - [License](#license)
@@ -24,6 +27,16 @@ Building and improving this Ansible role have been sponsored by my employer **Pr
 ---
 
 ## Default Variables
+
+### users_bashit_version
+
+Version of bash-it to install
+
+#### Default value
+
+```YAML
+users_bashit_version: latest
+```
 
 ### users_castles_force
 
@@ -123,6 +136,24 @@ users_general:
   - name: user-to-delete
     remove: True
     state: absent
+```
+
+### users_homeshick_version
+
+Version of homeshick to install
+
+#### Default value
+
+```YAML
+users_homeshick_version: latest
+```
+
+### users_ohmyzsh_version
+
+#### Default value
+
+```YAML
+users_ohmyzsh_version: latest
 ```
 
 ## Discovered Tags

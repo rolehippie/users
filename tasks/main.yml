@@ -90,6 +90,7 @@
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.oh-my-zsh"
+    version: "{{ 'HEAD' if users_ohmyzsh_version == 'latest' else users_ohmyzsh_version }}"
   tags:
     - users
 
@@ -106,6 +107,7 @@
   git:
     repo: https://github.com/Bash-it/bash-it.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.bash_it"
+    version: "{{ 'HEAD' if users_bashit_version == 'latest' else users_bashit_version }}"
   tags:
     - users
 
@@ -122,6 +124,7 @@
   git:
     repo: https://github.com/andsens/homeshick.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.homesick/repos/homeshick"
+    version: "{{ 'HEAD' if users_homeshick_version == 'latest' else users_homeshick_version }}"
   tags:
     - users
 
@@ -138,6 +141,7 @@
     repo: "{{ item.1.name | default(item.1) if (item.1.name | default(item.1)).startswith('http') else 'https://github.com/' + item.1.name | default(item.1) }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
     force: "{{ item.1.force | default(users_castles_force) }}"
+    version: "{{ item.1.version | default('HEAD') }}"
   tags:
     - users
 
