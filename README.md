@@ -1,24 +1,25 @@
 # users
 
-[![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/users) [![Testing Build](https://github.com/rolehippie/users/workflows/testing/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Atesting) [![Readme Build](https://github.com/rolehippie/users/workflows/readme/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Areadme) [![Galaxy Build](https://github.com/rolehippie/users/workflows/galaxy/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Agalaxy) [![License: Apache-2.0](https://img.shields.io/github/license/rolehippie/users)](https://github.com/rolehippie/users/blob/master/LICENSE) 
+[![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/users) [![Testing Build](https://github.com/rolehippie/users/workflows/testing/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Atesting) [![Readme Build](https://github.com/rolehippie/users/workflows/readme/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Areadme) [![Galaxy Build](https://github.com/rolehippie/users/workflows/galaxy/badge.svg)](https://github.com/rolehippie/users/actions?query=workflow%3Agalaxy) [![License: Apache-2.0](https://img.shields.io/github/license/rolehippie/users)](https://github.com/rolehippie/users/blob/master/LICENSE)
 
-Ansible role to manage system users. 
+Ansible role to manage system users.
 
-## Sponsor 
+## Sponsor
 
-[![Proact Deutschland GmbH](https://proact.eu/wp-content/uploads/2020/03/proact-logo.png)](https://proact.eu) 
+[![Proact Deutschland GmbH](https://proact.eu/wp-content/uploads/2020/03/proact-logo.png)](https://proact.eu)
 
 Building and improving this Ansible role have been sponsored by my employer **Proact Deutschland GmbH**.
 
 ## Table of content
 
-* [Default Variables](#default-variables)
-  * [users_castles_force](#users_castles_force)
-  * [users_extra](#users_extra)
-  * [users_general](#users_general)
-* [Dependencies](#dependencies)
-* [License](#license)
-* [Author](#author)
+- [Default Variables](#default-variables)
+  - [users_castles_force](#users_castles_force)
+  - [users_extra](#users_extra)
+  - [users_general](#users_general)
+- [Discovered Tags](#discovered-tags)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Author](#author)
 
 ---
 
@@ -124,9 +125,14 @@ users_general:
     state: absent
 ```
 
+## Discovered Tags
+
+**_users_**
+
+
 ## Dependencies
 
-* None
+- None
 
 ## License
 
