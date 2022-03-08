@@ -150,6 +150,8 @@ users_homeshick_version: latest
 
 ### users_ohmyzsh_version
 
+Version of bash-it to install
+
 #### Default value
 
 ```YAML

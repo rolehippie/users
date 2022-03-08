@@ -73,7 +73,7 @@ users_extra: []
 # @var users_castles_force:description: Force to update homeshick castels
 users_castles_force: False
 
-# @var users_bashit_version:description: Version of bash-it to install
+# @var users_ohmyzsh_version:description: Version of bash-it to install
 users_ohmyzsh_version: latest
 
 # @var users_bashit_version:description: Version of bash-it to install
