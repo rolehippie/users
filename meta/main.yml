@@ -7,7 +7,7 @@
 # [![Readme Workflow](https://github.com/rolehippie/users/actions/workflows/readme.yml/badge.svg)](https://github.com/rolehippie/users/actions/workflows/readme.yml)
 # [![Galaxy Workflow](https://github.com/rolehippie/users/actions/workflows/galaxy.yml/badge.svg)](https://github.com/rolehippie/users/actions/workflows/galaxy.yml)
 # [![License: Apache-2.0](https://img.shields.io/github/license/rolehippie/users)](https://github.com/rolehippie/users/blob/master/LICENSE)
-# [![Ansible Role](https://img.shields.io/ansible/role/51439)](https://galaxy.ansible.com/rolehippie/users)
+# [![Ansible Role](https://img.shields.io/badge/role-rolehippie.users-blue)](https://galaxy.ansible.com/rolehippie/users)
 #
 # Ansible role to manage system users.
 #
