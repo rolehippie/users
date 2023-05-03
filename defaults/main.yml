@@ -82,4 +82,10 @@ users_bashit_version: latest
 # @var users_homeshick_version:description: Version of homeshick to install
 users_homeshick_version: latest
 
+# @var users_override_zshenv:description: Override zshenv provided by system
+users_override_zshenv: True
+
+# @var users_enable_profile_load:description: Enable loading of profile.d within zshenv
+users_enable_profile_load: True
+
 ...

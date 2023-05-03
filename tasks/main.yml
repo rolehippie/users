@@ -188,4 +188,15 @@
   tags:
     - users
 
+- name: Write custom zshenv
+  when: users_override_zshenv
+  template:
+    src: zshenv.j2
+    dest: /etc/zsh/zshenv
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - users
+
 ...
