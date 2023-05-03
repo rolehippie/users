@@ -1,7 +1,13 @@
 # Standards: 1.2
 ---
+- name: Fact install zsh
+  set_fact:
+    users_install_zsh: "{{ (users_general + users_extra) | rejectattr('shell', 'undefined') | selectattr('shell', 'match', '/bin/zsh') | list | length > 0 }}"
+  tags:
+    - users
+
 - name: Install zsh package
-  when: (users_general + users_extra) | rejectattr('shell', 'undefined') | selectattr('shell', 'match', '/bin/zsh') | list | length > 0
+  when: users_install_zsh
   package:
     name: zsh
     state: present
@@ -189,7 +195,9 @@
     - users
 
 - name: Write custom zshenv
-  when: users_override_zshenv
+  when:
+    - users_install_zsh
+    - users_override_zshenv
   template:
     src: zshenv.j2
     dest: /etc/zsh/zshenv
