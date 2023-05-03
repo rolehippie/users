@@ -19,10 +19,12 @@ Building and improving this Ansible role have been sponsored by my current and p
 - [Default Variables](#default-variables)
   - [users_bashit_version](#users_bashit_version)
   - [users_castles_force](#users_castles_force)
+  - [users_enable_profile_load](#users_enable_profile_load)
   - [users_extra](#users_extra)
   - [users_general](#users_general)
   - [users_homeshick_version](#users_homeshick_version)
   - [users_ohmyzsh_version](#users_ohmyzsh_version)
+  - [users_override_zshenv](#users_override_zshenv)
 - [Discovered Tags](#discovered-tags)
 - [Dependencies](#dependencies)
 - [License](#license)
@@ -55,6 +57,16 @@ Force to update homeshick castels
 
 ```YAML
 users_castles_force: false
+```
+
+### users_enable_profile_load
+
+Enable loading of profile.d within zshenv
+
+#### Default value
+
+```YAML
+users_enable_profile_load: true
 ```
 
 ### users_extra
@@ -165,6 +177,16 @@ Version of bash-it to install
 
 ```YAML
 users_ohmyzsh_version: latest
+```
+
+### users_override_zshenv
+
+Override zshenv provided by system
+
+#### Default value
+
+```YAML
+users_override_zshenv: true
 ```
 
 ## Discovered Tags
