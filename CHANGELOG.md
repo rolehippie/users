@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/rolehippie/users/compare/v1.1.0...v1.1.1) (2023-05-03)
+
+
+### Bugfixes
+
+* write zshenv only if zsh is installed ([dfcb02c](https://github.com/rolehippie/users/commit/dfcb02c3c0bf7701c68f0fe5e19419c6fad5c917))
+
 ## [1.1.0](https://github.com/rolehippie/users/compare/v1.0.0...v1.1.0) (2023-05-03)
 
 
