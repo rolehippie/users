@@ -88,4 +88,7 @@ users_override_zshenv: True
 # @var users_enable_profile_load:description: Enable loading of profile.d within zshenv
 users_enable_profile_load: True
 
+# @var users_zfs_home:description: Enable home on ZFS by zsysctl command
+users_zfs_home: False
+
 ...

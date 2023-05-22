@@ -14,6 +14,14 @@
   tags:
     - users
 
+- name: Install zsys package
+  when: users_zfs_home
+  package:
+    name: zsys
+    state: present
+  tags:
+    - users
+
 - name: Install required packages
   loop:
     - acl
@@ -53,6 +61,53 @@
     name: "{{ item.name }}"
     gid: "{{ item.uid | default(omit) }}"
     state: present
+  tags:
+    - users
+
+- name: Create home directory
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - users_zfs_home
+    - item.state | default('present') == 'present'
+    - item.zfs | default(True)
+  file:
+    path: "{{ item.home | default('/home/' + item.name) }}"
+    owner: "{{ item.uid | default('root') }}"
+    group: "{{ item.primary_group | default(item.name) }}"
+    state: directory
+  tags:
+    - users
+
+- name: Enable zfs userdata
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - users_zfs_home
+    - item.state | default('present') == 'present'
+    - item.zfs | default(True)
+  register: users_zfs
+  changed_when: users_zfs.stderr_lines | length == 0
+  failed_when: False
+  command: "zsysctl userdata create {{ item.name }} {{ item.home | default('/home/' + item.name) }}"
+  tags:
+    - users
+
+- name: Chown home directory
+  loop: "{{ users_general + users_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - users_zfs_home
+    - item.state | default('present') == 'present'
+    - item.zfs | default(True)
+  file:
+    path: "{{ item.home | default('/home/' + item.name) }}"
+    owner: "{{ item.uid | default('root') }}"
+    group: "{{ item.primary_group | default(item.name) }}"
+    state: directory
   tags:
     - users
 
