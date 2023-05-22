@@ -25,6 +25,7 @@ Building and improving this Ansible role have been sponsored by my current and p
   - [users_homeshick_version](#users_homeshick_version)
   - [users_ohmyzsh_version](#users_ohmyzsh_version)
   - [users_override_zshenv](#users_override_zshenv)
+  - [users_zfs_home](#users_zfs_home)
 - [Discovered Tags](#discovered-tags)
 - [Dependencies](#dependencies)
 - [License](#license)
@@ -187,6 +188,16 @@ Override zshenv provided by system
 
 ```YAML
 users_override_zshenv: true
+```
+
+### users_zfs_home
+
+Enable home on ZFS by zsysctl command
+
+#### Default value
+
+```YAML
+users_zfs_home: false
 ```
 
 ## Discovered Tags
