@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/rolehippie/users/compare/v1.1.1...v1.2.0) (2023-05-22)
+
+
+### Features
+
+* integrate zfs userdata ([df87a1d](https://github.com/rolehippie/users/commit/df87a1d0fd2ae80209a264c5a25eaa2822c49a06))
+
 ## [1.1.1](https://github.com/rolehippie/users/compare/v1.1.0...v1.1.1) (2023-05-03)
 
 
