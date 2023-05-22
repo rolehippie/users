@@ -76,6 +76,7 @@
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
     group: "{{ item.primary_group | default(item.name) }}"
+    mode: u=rwx,g=rx,o=rx
     state: directory
   tags:
     - users
@@ -107,6 +108,7 @@
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
     group: "{{ item.primary_group | default(item.name) }}"
+    mode: u=rwx,g=rx,o=rx
     state: directory
   tags:
     - users
