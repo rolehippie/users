@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/rolehippie/users/compare/v1.2.0...v1.2.1) (2023-05-22)
+
+
+### Bugfixes
+
+* correctly set mode for user home ([2ed8c63](https://github.com/rolehippie/users/commit/2ed8c630088b9e17fd40f402eea8d51dec9216ac))
+* home dir should not be readable by others ([bfcb47a](https://github.com/rolehippie/users/commit/bfcb47a699cf452e54fd68e7d69ef451c79f6fc6))
+
 ## [1.2.0](https://github.com/rolehippie/users/compare/v1.1.1...v1.2.0) (2023-05-22)
 
 
