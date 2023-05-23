@@ -25,6 +25,9 @@ Building and improving this Ansible role have been sponsored by my current and p
   - [users_homeshick_version](#users_homeshick_version)
   - [users_ohmyzsh_version](#users_ohmyzsh_version)
   - [users_override_zshenv](#users_override_zshenv)
+  - [users_packages_general](#users_packages_general)
+  - [users_packages_zfs](#users_packages_zfs)
+  - [users_packages_zsh](#users_packages_zsh)
   - [users_zfs_home](#users_zfs_home)
 - [Discovered Tags](#discovered-tags)
 - [Dependencies](#dependencies)
@@ -188,6 +191,41 @@ Override zshenv provided by system
 
 ```YAML
 users_override_zshenv: true
+```
+
+### users_packages_general
+
+List of general packages to install
+
+#### Default value
+
+```YAML
+users_packages_general:
+  - acl
+  - bash
+  - git
+```
+
+### users_packages_zfs
+
+List of packages for zfs to install
+
+#### Default value
+
+```YAML
+users_packages_zfs:
+  - zsys
+```
+
+### users_packages_zsh
+
+List of packages for zsh to install
+
+#### Default value
+
+```YAML
+users_packages_zsh:
+  - zsh
 ```
 
 ### users_zfs_home
