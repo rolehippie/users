@@ -8,25 +8,24 @@
 
 - name: Install zsh package
   when: users_install_zsh
+  loop: "{{ users_packages_zsh }}"
   package:
-    name: zsh
+    name: "{{ item }}"
     state: present
   tags:
     - users
 
 - name: Install zsys package
   when: users_zfs_home
+  loop: "{{ users_packages_zfs }}"
   package:
-    name: zsys
+    name: "{{ item }}"
     state: present
   tags:
     - users
 
 - name: Install required packages
-  loop:
-    - acl
-    - bash
-    - git
+  loop: "{{ users_packages_general }}"
   package:
     name: "{{ item }}"
     state: present

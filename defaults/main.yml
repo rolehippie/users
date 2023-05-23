@@ -70,6 +70,20 @@ users_general: []
 # @end
 users_extra: []
 
+# @var users_packages_general:description: List of general packages to install
+users_packages_general:
+  - acl
+  - bash
+  - git
+
+# @var users_packages_zsh:description: List of packages for zsh to install
+users_packages_zsh:
+  - zsh
+
+# @var users_packages_zfs:description: List of packages for zfs to install
+users_packages_zfs:
+  - zsys
+
 # @var users_castles_force:description: Force to update homeshick castels
 users_castles_force: False
 
