@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/rolehippie/users/compare/v1.2.1...v1.3.0) (2023-05-23)
+
+
+### Features
+
+* make packages configurable ([ebb04be](https://github.com/rolehippie/users/commit/ebb04bea9bf66f0960e175ced9c135dc57fd36d9))
+
 ## [1.2.1](https://github.com/rolehippie/users/compare/v1.2.0...v1.2.1) (2023-05-22)
 
 
