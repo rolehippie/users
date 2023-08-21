@@ -195,7 +195,7 @@
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
   when:
-    - item.state | default('present') == 'present'
+    - item.0.state | default('present') == 'present'
   become: True
   become_user: "{{ item.0.name }}"
   diff: False
