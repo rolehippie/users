@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/rolehippie/users/compare/v1.3.0...v1.3.1) (2023-08-31)
+
+
+### Bugfixes
+
+* use right state attribute while removing user ([1cba3cf](https://github.com/rolehippie/users/commit/1cba3cf2a6dae007862a3de0b0d76cdd916ef435))
+
 ## [1.3.0](https://github.com/rolehippie/users/compare/v1.2.1...v1.3.0) (2023-05-23)
 
 
