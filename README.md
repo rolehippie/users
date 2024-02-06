@@ -244,7 +244,8 @@ users_zfs_home: false
 
 ## Dependencies
 
-- None
+- [ansible.posix](https://github.com/ansible-collections/ansible.posix)
+- [community.general](https://github.com/ansible-collections/community.general)
 
 ## License
 
