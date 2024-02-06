@@ -89,7 +89,7 @@ users_extra:
   - name: thomas
     primary_group: staff
     comment: Thomas Mustermann
-    shell: /bin/bash
+    ansible.builtin.shell: /bin/bash
     castles:
       - tboerger/homeshick-base
       - name: tboerger/homeshick-osx
@@ -102,13 +102,13 @@ users_extra:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFcPTmdo+7eK+8n2yE7Kx1vyQ4yJwHBngvQOt1MPhKhR tboerger@host3
   - name: buser
     primary_group: staff
-    shell: /bin/bash
+    ansible.builtin.shell: /bin/bash
     bashit: True
     groups:
       - admin
   - name: zuser
     primary_group: staff
-    shell: /bin/zsh
+    ansible.builtin.shell: /bin/zsh
     ohmyzsh: True
     groups:
       - admin
@@ -134,7 +134,7 @@ users_general:
   - name: thomas
     primary_group: staff
     comment: Thomas Mustermann
-    shell: /bin/bash
+    ansible.builtin.shell: /bin/bash
     castles:
       - tboerger/homeshick-base
       - name: tboerger/homeshick-osx
@@ -147,13 +147,13 @@ users_general:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFcPTmdo+7eK+8n2yE7Kx1vyQ4yJwHBngvQOt1MPhKhR tboerger@host3
   - name: buser
     primary_group: staff
-    shell: /bin/bash
+    ansible.builtin.shell: /bin/bash
     bashit: True
     groups:
       - admin
   - name: zuser
     primary_group: staff
-    shell: /bin/zsh
+    ansible.builtin.shell: /bin/zsh
     ohmyzsh: True
     groups:
       - admin

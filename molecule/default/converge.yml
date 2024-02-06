@@ -1,11 +1,10 @@
-# Standards: 1.2
 ---
 - name: Converge
   hosts: all
   vars:
     users_general:
       - name: dummy
-        shell: /bin/bash
+        ansible.builtin.shell: /bin/bash
         castles:
           - tboerger/homeshick-base
         sshkeys:
