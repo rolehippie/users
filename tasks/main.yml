@@ -1,6 +1,6 @@
 ---
 - name: Fact install zsh
-  set_fact:
+  ansible.builtin.set_fact:
     users_install_zsh: "{{ (users_general + users_extra) | rejectattr('shell', 'undefined') | selectattr('shell', 'match', '/bin/zsh') | list | length > 0 }}"
   tags:
     - users
@@ -8,7 +8,7 @@
 - name: Install zsh package
   when: users_install_zsh
   loop: "{{ users_packages_zsh }}"
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   tags:
@@ -17,7 +17,7 @@
 - name: Install zsys package
   when: users_zfs_home
   loop: "{{ users_packages_zfs }}"
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   tags:
@@ -25,7 +25,7 @@
 
 - name: Install required packages
   loop: "{{ users_packages_general }}"
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   tags:
@@ -38,7 +38,7 @@
   when:
     - item.state | default('present') == 'absent'
     - item.remove | default(False)
-  archive:
+  community.general.archive:
     path: /home/{{ item.name }}
     dest: "/root/{{ item.name }}_{{ ansible_date_time.iso8601 }}.tar.gz"
     owner: root
@@ -55,7 +55,7 @@
   when:
     - item.state | default('present') == 'present'
     - item.primary_group is undefined
-  group:
+  ansible.builtin.group:
     name: "{{ item.name }}"
     gid: "{{ item.uid | default(omit) }}"
     state: present
@@ -70,7 +70,7 @@
     - users_zfs_home
     - item.state | default('present') == 'present'
     - item.zfs | default(True)
-  file:
+  ansible.builtin.file:
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
     group: "{{ item.primary_group | default(item.name) }}"
@@ -90,7 +90,7 @@
   register: users_zfs
   changed_when: users_zfs.stderr_lines | length == 0
   failed_when: False
-  command: "zsysctl userdata create {{ item.name }} {{ item.home | default('/home/' + item.name) }}"
+  ansible.builtin.command: "zsysctl userdata create {{ item.name }} {{ item.home | default('/home/' + item.name) }}"
   tags:
     - users
 
@@ -102,7 +102,7 @@
     - users_zfs_home
     - item.state | default('present') == 'present'
     - item.zfs | default(True)
-  file:
+  ansible.builtin.file:
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
     group: "{{ item.primary_group | default(item.name) }}"
@@ -115,13 +115,13 @@
   loop: "{{ users_general + users_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     uid: "{{ item.uid | default(omit) }}"
     comment: "{{ item.comment | default(omit) }}"
     password: "{{ item.password | default(omit) }}"
     group: "{{ item.primary_group | default(item.name) }}"
-    shell: "{{ item.shell | default('/bin/bash') }}"
+    ansible.builtin.shell: "{{ item.shell | default('/bin/bash') }}"
     home: "{{ item.home | default('/home/' + item.name) }}"
     groups: "{{ item.groups | default([]) | join(',') }}"
     generate_ssh_key: "{{ item.ssh_key.generate | default(False) }}"
@@ -148,7 +148,7 @@
   become: True
   become_user: "{{ item.name }}"
   diff: False
-  git:
+  ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.oh-my-zsh"
     version: "{{ 'HEAD' if users_ohmyzsh_version == 'latest' else users_ohmyzsh_version }}"
@@ -165,7 +165,7 @@
   become: True
   become_user: "{{ item.name }}"
   diff: False
-  git:
+  ansible.builtin.git:
     repo: https://github.com/Bash-it/bash-it.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.bash_it"
     version: "{{ 'HEAD' if users_bashit_version == 'latest' else users_bashit_version }}"
@@ -182,7 +182,7 @@
   become: True
   become_user: "{{ item.name }}"
   diff: False
-  git:
+  ansible.builtin.git:
     repo: https://github.com/andsens/homeshick.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.homesick/repos/homeshick"
     version: "{{ 'HEAD' if users_homeshick_version == 'latest' else users_homeshick_version }}"
@@ -198,7 +198,7 @@
   become: True
   become_user: "{{ item.0.name }}"
   diff: False
-  git:
+  ansible.builtin.git:
     repo: "{{ item.1.name | default(item.1) if (item.1.name | default(item.1)).startswith('http') else 'https://github.com/' + item.1.name | default(item.1) }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
     force: "{{ item.1.force | default(users_castles_force) }}"
@@ -214,7 +214,7 @@
     - item.0.state | default('present') == 'present'
   become: True
   become_user: "{{ item.0.name }}"
-  command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
+  ansible.builtin.command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
   changed_when: False
   tags:
     - users
@@ -226,7 +226,7 @@
   when:
     - item.state | default('present') == 'present'
     - item.sshkeys | default(False)
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.sshkeys | join('\n') }}"
     exclusive: True
@@ -240,7 +240,7 @@
     label: "{{ item.0.name }}: {{ item.1.name | default('id_rsa') }}"
   when:
     - item.0.state | default('present') == 'present'
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.1.content }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.ssh/{{ item.1.name | default('id_rsa') }}"
     owner: "{{ item.0.name }}"
@@ -253,7 +253,7 @@
   when:
     - users_install_zsh
     - users_override_zshenv
-  template:
+  ansible.builtin.template:
     src: zshenv.j2
     dest: /etc/zsh/zshenv
     owner: root
