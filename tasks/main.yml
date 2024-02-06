@@ -121,7 +121,7 @@
     comment: "{{ item.comment | default(omit) }}"
     password: "{{ item.password | default(omit) }}"
     group: "{{ item.primary_group | default(item.name) }}"
-    ansible.builtin.shell: "{{ item.shell | default('/bin/bash') }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
     home: "{{ item.home | default('/home/' + item.name) }}"
     groups: "{{ item.groups | default([]) | join(',') }}"
     generate_ssh_key: "{{ item.ssh_key.generate | default(False) }}"
