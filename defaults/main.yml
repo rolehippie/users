@@ -9,7 +9,7 @@
 #     castles:
 #       - tboerger/homeshick-base
 #       - name: tboerger/homeshick-osx
-#         force: True
+#         force: true
 #     groups:
 #       - admin
 #     sshkeys:
@@ -19,17 +19,17 @@
 #   - name: buser
 #     primary_group: staff
 #     ansible.builtin.shell: /bin/bash
-#     bashit: True
+#     bashit: true
 #     groups:
 #       - admin
 #   - name: zuser
 #     primary_group: staff
 #     ansible.builtin.shell: /bin/zsh
-#     ohmyzsh: True
+#     ohmyzsh: true
 #     groups:
 #       - admin
 #   - name: user-to-delete
-#     remove: True
+#     remove: true
 #     state: absent
 # @end
 users_general: []
@@ -44,7 +44,7 @@ users_general: []
 #     castles:
 #       - tboerger/homeshick-base
 #       - name: tboerger/homeshick-osx
-#         force: True
+#         force: true
 #     groups:
 #       - admin
 #     sshkeys:
@@ -54,17 +54,17 @@ users_general: []
 #   - name: buser
 #     primary_group: staff
 #     ansible.builtin.shell: /bin/bash
-#     bashit: True
+#     bashit: true
 #     groups:
 #       - admin
 #   - name: zuser
 #     primary_group: staff
 #     ansible.builtin.shell: /bin/zsh
-#     ohmyzsh: True
+#     ohmyzsh: true
 #     groups:
 #       - admin
 #   - name: user-to-delete
-#     remove: True
+#     remove: true
 #     state: absent
 # @end
 users_extra: []
@@ -84,7 +84,7 @@ users_packages_zfs:
   - zsys
 
 # @var users_castles_force:description: Force to update homeshick castels
-users_castles_force: False
+users_castles_force: false
 
 # @var users_ohmyzsh_version:description: Version of bash-it to install
 users_ohmyzsh_version: latest
@@ -96,12 +96,12 @@ users_bashit_version: latest
 users_homeshick_version: latest
 
 # @var users_override_zshenv:description: Override zshenv provided by system
-users_override_zshenv: True
+users_override_zshenv: true
 
 # @var users_enable_profile_load:description: Enable loading of profile.d within zshenv
-users_enable_profile_load: True
+users_enable_profile_load: true
 
 # @var users_zfs_home:description: Enable home on ZFS by zsysctl command
-users_zfs_home: False
+users_zfs_home: false
 
 ...

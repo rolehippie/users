@@ -1,4 +1,4 @@
-# workspace
+# users
 
 [![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/users)
 [![General Workflow](https://github.com/rolehippie/users/actions/workflows/general.yml/badge.svg)](https://github.com/rolehippie/users/actions/workflows/general.yml)
@@ -93,7 +93,7 @@ users_extra:
     castles:
       - tboerger/homeshick-base
       - name: tboerger/homeshick-osx
-        force: True
+        force: true
     groups:
       - admin
     sshkeys:
@@ -103,17 +103,17 @@ users_extra:
   - name: buser
     primary_group: staff
     ansible.builtin.shell: /bin/bash
-    bashit: True
+    bashit: true
     groups:
       - admin
   - name: zuser
     primary_group: staff
     ansible.builtin.shell: /bin/zsh
-    ohmyzsh: True
+    ohmyzsh: true
     groups:
       - admin
   - name: user-to-delete
-    remove: True
+    remove: true
     state: absent
 ```
 
@@ -138,7 +138,7 @@ users_general:
     castles:
       - tboerger/homeshick-base
       - name: tboerger/homeshick-osx
-        force: True
+        force: true
     groups:
       - admin
     sshkeys:
@@ -148,17 +148,17 @@ users_general:
   - name: buser
     primary_group: staff
     ansible.builtin.shell: /bin/bash
-    bashit: True
+    bashit: true
     groups:
       - admin
   - name: zuser
     primary_group: staff
     ansible.builtin.shell: /bin/zsh
-    ohmyzsh: True
+    ohmyzsh: true
     groups:
       - admin
   - name: user-to-delete
-    remove: True
+    remove: true
     state: absent
 ```
 

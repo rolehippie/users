@@ -6,7 +6,8 @@
     - users
 
 - name: Install zsh package
-  when: users_install_zsh
+  when:
+    - users_install_zsh
   loop: "{{ users_packages_zsh }}"
   ansible.builtin.package:
     name: "{{ item }}"
@@ -15,7 +16,8 @@
     - users
 
 - name: Install zsys package
-  when: users_zfs_home
+  when:
+    - users_zfs_home
   loop: "{{ users_packages_zfs }}"
   ansible.builtin.package:
     name: "{{ item }}"
@@ -36,15 +38,15 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-    - item.state | default('present') == 'absent'
-    - item.remove | default(False)
+    - ('present' if item.state is not defined else item.state) == 'absent'
+    - false if item.remove is not defined else item.remove
   community.general.archive:
     path: /home/{{ item.name }}
     dest: "/root/{{ item.name }}_{{ ansible_date_time.iso8601 }}.tar.gz"
     owner: root
     group: root
     mode: u=rw,g=,o=
-    remove: True
+    remove: true
   tags:
     - users
 
@@ -53,7 +55,7 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-    - item.state | default('present') == 'present'
+    - ('present' if item.state is not defined else item.state) == 'present'
     - item.primary_group is undefined
   ansible.builtin.group:
     name: "{{ item.name }}"
@@ -67,9 +69,9 @@
   loop_control:
     label: "{{ item.name }}"
   when:
+    - ('present' if item.state is not defined else item.state) == 'present'
     - users_zfs_home
-    - item.state | default('present') == 'present'
-    - item.zfs | default(True)
+    - true if item.zfs is not defined else item.zfs
   ansible.builtin.file:
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
@@ -84,12 +86,12 @@
   loop_control:
     label: "{{ item.name }}"
   when:
+    - ('present' if item.state is not defined else item.state) == 'present'
     - users_zfs_home
-    - item.state | default('present') == 'present'
-    - item.zfs | default(True)
+    - true if item.zfs is not defined else item.zfs
   register: users_zfs
   changed_when: users_zfs.stderr_lines | length == 0
-  failed_when: False
+  failed_when: false
   ansible.builtin.command: "zsysctl userdata create {{ item.name }} {{ item.home | default('/home/' + item.name) }}"
   tags:
     - users
@@ -99,9 +101,9 @@
   loop_control:
     label: "{{ item.name }}"
   when:
+    - ('present' if item.state is not defined else item.state) == 'present'
     - users_zfs_home
-    - item.state | default('present') == 'present'
-    - item.zfs | default(True)
+    - true if item.zfs is not defined else item.zfs
   ansible.builtin.file:
     path: "{{ item.home | default('/home/' + item.name) }}"
     owner: "{{ item.uid | default('root') }}"
@@ -124,16 +126,16 @@
     shell: "{{ item.shell | default('/bin/bash') }}"
     home: "{{ item.home | default('/home/' + item.name) }}"
     groups: "{{ item.groups | default([]) | join(',') }}"
-    generate_ssh_key: "{{ item.ssh_key.generate | default(False) }}"
+    generate_ssh_key: "{{ item.ssh_key.generate | default(false) }}"
     ssh_key_bits: "{{ item.ssh_key.bits | default(omit) }}"
     ssh_key_comment: "{{ item.ssh_key.comment | default(omit) }}"
     ssh_key_file: "{{ item.ssh_key.file | default(omit) }}"
     ssh_key_passphrase: "{{ item.ssh_key.passphrase | default(omit) }}"
     ssh_key_type: "{{ item.ssh_key.type | default(omit) }}"
     update_password: "{{ item.update_password | default('always') }}"
-    remove: "{{ item.remove | default(False) }}"
-    append: True
-    createhome: True
+    remove: "{{ item.remove | default(false) }}"
+    append: true
+    createhome: true
     state: "{{ item.state | default('present') }}"
   tags:
     - users
@@ -143,11 +145,11 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-    - item.state | default('present') == 'present'
-    - item.ohmyzsh | default(False)
-  become: True
+    - ('present' if item.state is not defined else item.state) == 'present'
+    - false if item.ohmyzsh is not defined else item.ohmyzsh
+  become: true
   become_user: "{{ item.name }}"
-  diff: False
+  diff: false
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.oh-my-zsh"
@@ -160,11 +162,11 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-    - item.state | default('present') == 'present'
-    - item.bashit | default(False)
-  become: True
+    - ('present' if item.state is not defined else item.state) == 'present'
+    - false if item.bashit is not defined else item.bashit
+  become: true
   become_user: "{{ item.name }}"
-  diff: False
+  diff: false
   ansible.builtin.git:
     repo: https://github.com/Bash-it/bash-it.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.bash_it"
@@ -177,11 +179,11 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-    - item.state | default('present') == 'present'
-    - item.castles | default([]) | length > 0
-  become: True
+    - ('present' if item.state is not defined else item.state) == 'present'
+    - false if item.castles is not defined else (item.castles | length > 0)
+  become: true
   become_user: "{{ item.name }}"
-  diff: False
+  diff: false
   ansible.builtin.git:
     repo: https://github.com/andsens/homeshick.git
     dest: "{{ item.home | default('/home/' + item.name) }}/.homesick/repos/homeshick"
@@ -190,14 +192,14 @@
     - users
 
 - name: Clone homeshick castles
-  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=True) }}"
+  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=true) }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
   when:
-    - item.0.state | default('present') == 'present'
-  become: True
+    - ('present' if item.0.state is not defined else item.0.state) == 'present'
+  become: true
   become_user: "{{ item.0.name }}"
-  diff: False
+  diff: false
   ansible.builtin.git:
     repo: "{{ item.1.name | default(item.1) if (item.1.name | default(item.1)).startswith('http') else 'https://github.com/' + item.1.name | default(item.1) }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/{{ item.1.name | default(item.1) | basename }}"
@@ -207,15 +209,15 @@
     - users
 
 - name: Link homeshick castles
-  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=True) }}"
+  loop: "{{ (users_general + users_extra) | subelements('castles', skip_missing=true) }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1 }}"
   when:
-    - item.0.state | default('present') == 'present'
-  become: True
+    - ('present' if item.0.state is not defined else item.0.state) == 'present'
+  become: true
   become_user: "{{ item.0.name }}"
   ansible.builtin.command: "{{ item.0.home | default('/home/' + item.0.name) }}/.homesick/repos/homeshick/bin/homeshick -f -b -q link {{ item.1 | basename }}"
-  changed_when: False
+  changed_when: false
   tags:
     - users
 
@@ -224,22 +226,22 @@
   loop_control:
     label: "{{ item.name }}: {{ item.sshkeys | default(['None']) | join(', ') }}"
   when:
-    - item.state | default('present') == 'present'
-    - item.sshkeys | default(False)
+    - ('present' if item.state is not defined else item.state) == 'present'
+    - false if item.sshkeys is not defined else (item.sshkeys | length > 0)
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.sshkeys | join('\n') }}"
-    exclusive: True
+    exclusive: true
     state: present
   tags:
     - users
 
 - name: Write private keys
-  loop: "{{ (users_general + users_extra) | subelements('private', skip_missing=True) }}"
+  loop: "{{ (users_general + users_extra) | subelements('private', skip_missing=true) }}"
   loop_control:
     label: "{{ item.0.name }}: {{ item.1.name | default('id_rsa') }}"
   when:
-    - item.0.state | default('present') == 'present'
+    - ('present' if item.0.state is not defined else item.0.state) == 'present'
   ansible.builtin.copy:
     content: "{{ item.1.content }}"
     dest: "{{ item.0.home | default('/home/' + item.0.name) }}/.ssh/{{ item.1.name | default('id_rsa') }}"
