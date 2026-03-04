@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.2.0](https://github.com/rolehippie/users/compare/v2.1.0...v2.2.0) (2026-03-04)
+
+### Features
+
+* improve conditional behavior ([1821fb4](https://github.com/rolehippie/users/commit/1821fb4619faeb0a08807dd18a4d9b4471b555af))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([6183aae](https://github.com/rolehippie/users/commit/6183aae9f37476cc2394218c2b90f9f624bf6f18))
+* **flake:** updated lockfile [skip ci] ([a2de773](https://github.com/rolehippie/users/commit/a2de7735f8e8f425f44948f29a65379d66703ae5))
+* **flake:** updated lockfile [skip ci] ([08b3aac](https://github.com/rolehippie/users/commit/08b3aaccd47bf027596850fb476afd30154eb40e))
+* **flake:** updated lockfile [skip ci] ([2bcea9b](https://github.com/rolehippie/users/commit/2bcea9b0d6e75c40da85d71669d2bbcb75bc70c7))
+* **flake:** updated lockfile [skip ci] ([66f25d4](https://github.com/rolehippie/users/commit/66f25d4a026c886fbad6c5545d75502fa90e5c48))
+* **flake:** updated lockfile [skip ci] ([9e14f6a](https://github.com/rolehippie/users/commit/9e14f6a3b7a50aa98826da3e253c6bf2584d868b))
+* **flake:** updated lockfile [skip ci] ([f1c3ff2](https://github.com/rolehippie/users/commit/f1c3ff296d5500e9609901bbb6e390230be04108))
+* **flake:** updated lockfile [skip ci] ([79da9b2](https://github.com/rolehippie/users/commit/79da9b208c46734129b742682f2ead2b7353e9c0))
+* **flake:** updated lockfile [skip ci] ([2208a04](https://github.com/rolehippie/users/commit/2208a042754afa53e8d211e60b90b53a8d33e4d6))
+* **flake:** updated lockfile [skip ci] ([d898ace](https://github.com/rolehippie/users/commit/d898ace0b47f7f6dfa608c66dd4745098e192aec))
+* **flake:** updated lockfile [skip ci] ([f24e815](https://github.com/rolehippie/users/commit/f24e815828e392471f00459c76c947b0e9cd974e))
+* **flake:** updated lockfile [skip ci] ([29eeafc](https://github.com/rolehippie/users/commit/29eeafc3cbca041fb497623c1881740d4656937e))
+* **flake:** updated lockfile [skip ci] ([4297ec8](https://github.com/rolehippie/users/commit/4297ec8edb93d0b0bfcedf5fe076d67e7536d4a0))
+* **flake:** updated lockfile [skip ci] ([c539728](https://github.com/rolehippie/users/commit/c539728342cac5ab472db709b3d4e22ed8d2b791))
+* **flake:** updated lockfile [skip ci] ([77476de](https://github.com/rolehippie/users/commit/77476de6db940526202a07c5b64c7749b173a775))
+* **flake:** updated lockfile [skip ci] ([ed5f3b5](https://github.com/rolehippie/users/commit/ed5f3b5210f85817d02198fecce8860162753c08))
+* **flake:** updated lockfile [skip ci] ([2a654ca](https://github.com/rolehippie/users/commit/2a654ca05e5b0345e0d1c17442bace07a8ee8454))
+* **flake:** updated lockfile [skip ci] ([5ca0245](https://github.com/rolehippie/users/commit/5ca0245659729b481369b9533c6384c6daa228ed))
+* **flake:** updated lockfile [skip ci] ([caaf6fe](https://github.com/rolehippie/users/commit/caaf6fed7df9c982994002a0778946ee30141d82))
+* **flake:** updated lockfile [skip ci] ([be306cd](https://github.com/rolehippie/users/commit/be306cd6ecc0ef10ec5119baa67b1f65134e0e8f))
+* **flake:** updated lockfile [skip ci] ([000d884](https://github.com/rolehippie/users/commit/000d884d6881cd02f9b142c606a7b4b95cf69aaf))
+* **flake:** updated lockfile [skip ci] ([fd5efec](https://github.com/rolehippie/users/commit/fd5efec3726596ccbfdc64c7aeef4b3d606b5f80))
+* **flake:** updated lockfile [skip ci] ([c5afda9](https://github.com/rolehippie/users/commit/c5afda97d16085ea3018c723661f823ab4706347))
+* **flake:** updated lockfile [skip ci] ([902b433](https://github.com/rolehippie/users/commit/902b4337cb50801b3af87feee8d981feb62bf59f))
+* install cron by default part of molecule ([20c2720](https://github.com/rolehippie/users/commit/20c2720ad713f4579b1992e72ae5b4edef8b4ce1))
+* replace nixfmt package ([6efb5be](https://github.com/rolehippie/users/commit/6efb5be5b8b9246b1b5c482448794a4df86c5307))
+
 ## [2.1.0](https://github.com/rolehippie/users/compare/v2.0.0...v2.1.0) (2025-09-20)
 
 
