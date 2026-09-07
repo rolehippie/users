@@ -42,7 +42,7 @@
     - item.remove is defined and item.remove
   community.general.archive:
     path: /home/{{ item.name }}
-    dest: "/root/{{ item.name }}_{{ ansible_date_time.iso8601 }}.tar.gz"
+    dest: "/root/{{ item.name }}_{{ ansible_facts['date_time']['iso8601'] }}.tar.gz"
     owner: root
     group: root
     mode: u=rw,g=,o=
